@@ -34,8 +34,8 @@ class logisticRegression:
         for i in range(0,step):
             g = (1 / self.x.shape[0]) * np.dot(self.x.T, (self.h() - self.y))
             self.theta -= alpha*g
-           # self.theta[1:] = self.theta[1:] * (1 - alpha * (la/self.x.shape[0]))
-            if(np.linalg.norm(g) < 0.025):
+            self.theta[1:] = self.theta[1:] * (1 - alpha * (la/self.x.shape[0]))
+            if(np.linalg.norm(g) < 0.002):
                 print("Gradient is too small!")
                 return
     
@@ -67,7 +67,7 @@ lR = logisticRegression(".\ML\ex2\data\ex2data2.txt")
 #print(lR.h())
 
 rate = 0.0003
-punish = 100000
+punish = 156
 step = 1000000
 
 lR.Itergrate(step, alpha=rate, la=punish)
