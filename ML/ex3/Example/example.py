@@ -22,7 +22,7 @@ np.random.seed(1)
 # 初始化权重
 # 两个输入，四个隐藏层节点
 input_neurons = 2
-hidden_neurons = 4
+hidden_neurons = 3
 output_neurons = 1
 
 # 使用随机值初始化权重
