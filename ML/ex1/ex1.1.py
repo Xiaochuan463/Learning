@@ -102,3 +102,4 @@ print(lr.theta)
 lr.plot()
 
 
+
