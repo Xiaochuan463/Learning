@@ -78,7 +78,7 @@ class Weight:
         if not isinstance(input_data, np.ndarray):
             return None
         #bias = np.ones((input_data.shape[0],1))
-        #self.input_data = np.hstack((bias, input_data))
+        #self.input_data = np.concatenate((bias, input_data),axis=1)
         self.input_data = np.array(input_data)
         self.output_data = np.matmul(self.input_data, self.weight)
         self.output_data = self.sigmoid(self.output_data)
