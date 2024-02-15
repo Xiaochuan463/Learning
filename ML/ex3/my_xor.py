@@ -1,20 +1,30 @@
 """
 A neural netwoerk to generate Xor
+
+Now, it is trained to be a 2-4 encoder
+
+and maybe an adder?
 """
 
 
 import numpy as np
 from weight import Weight
 
-x = [[0., 0.], [0., 1.], [1., 0.],[1., 1.]]
-y = [[0.], [1.], [1.], [0.]]
+x = [[0., 0.],
+     [0., 1.], 
+     [1., 0.],
+     [1., 1.]]
+y = [[0.,0.], 
+     [0.,1.], 
+     [0.,1.],
+     [1.,0.]]
 
 x = np.array(x)
 y = np.array(y)
 
-INPUT_NODES = 2
+INPUT_NODES = x.shape[1]
 HIDDEN_NODES = 3
-OUTPUT_NODES = 1
+OUTPUT_NODES = y.shape[1]
 STUDY_RATE = 0.1
 
 STEP = 10000
@@ -36,4 +46,4 @@ for i in range(STEP):
     ho.update(STUDY_RATE)
     ih.update(STUDY_RATE)
 
-print(end)
+print(np.round(end))

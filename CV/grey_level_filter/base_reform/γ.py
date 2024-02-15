@@ -11,7 +11,7 @@ MAX_GRAY_LEVEL = np.max(gray_array)
 HEIGHT = gray_array.shape[0]
 WIDTH = gray_array.shape[1]
 
-C = 4
+C = 0.5
 GAMA = 1.5
 
 r = C * np.power(r, GAMA)
