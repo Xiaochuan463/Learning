@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-#include<stdio.h>
-#include<libjpeg>
-
-=======
 #include <stdio.h>
 #include <stdlib.h>
 #include <jpeglib.h>
@@ -113,4 +108,4 @@ int main() {
 
     return 0;
 }
->>>>>>> ee2759fe692d73f8c5275da5cb769c93ae24e899
+
