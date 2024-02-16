@@ -6,6 +6,8 @@ Now, it is trained to be a 2-4 encoder
 and maybe an adder?
 
 It real name is mlp
+
+with regularization
 """
 
 
@@ -29,6 +31,7 @@ HIDDEN_NODES_I = 3
 HIDDEN_NODES_II = 5
 OUTPUT_NODES = y.shape[1]
 STUDY_RATE = 0.1
+REGULARIZATION_RATE = 0.00005
 
 STEP = 50000
 
@@ -49,8 +52,8 @@ for i in range(STEP):
     ih.get_derivative(hihii)
 
     #update using gradient decent
-    ho.update(STUDY_RATE)
-    hihii.update(STUDY_RATE)
-    ih.update(STUDY_RATE)
+    ho.update(STUDY_RATE, REGULARIZATION_RATE)
+    hihii.update(STUDY_RATE, REGULARIZATION_RATE)
+    ih.update(STUDY_RATE, REGULARIZATION_RATE)
 print((end))
 print(np.round(end))

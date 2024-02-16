@@ -17,17 +17,19 @@ r_end = r.astype(int)
 
 histogram, bins = np.histogram(r.flatten(), bins = 256, range = (0,255))
 
-cdf = histogram.cumsum()
-cdf_normalized = cdf / cdf.max()
 
 
-r_end = (cdf_normalized[r_end] * 255).astype(np.uint8)
+
+pdf = histogram / np.sum(histogram)
+cdf = pdf.cumsum()
+r_end = (cdf[r_end] * 255).astype(np.uint8)
 
 plt.figure(figsize=(10, 5))
 
 plt.subplot(1, 2, 1)
 plt.imshow(r, cmap='gray')
 plt.title('Original Image')
+
 plt.axis('off')
 
 plt.subplot(1, 2, 2)
