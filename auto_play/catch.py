@@ -3,6 +3,7 @@ doc
 """
 import pickle
 import time
+import os
 import torch
 import matplotlib.pyplot as plt
 from PIL import ImageGrab
@@ -11,12 +12,12 @@ import numpy as np
 import keyboard
 from weight_gpu import Weight
 import pyautogui
-import os
+
 
 INPUT_NODES = 750
 HIDDEN_NODES = 1000
 OUTPUT_NODES = 4
-STUDY_RATE = 0.1
+STUDY_RATE = 1
 REGULARIZATION_RATE = 0.0005
 pyautogui.FAILSAFE = False
 
@@ -118,24 +119,11 @@ if os.path.exists('auto_play\\weights.pkl'):
 catch_time = time.time()
 train_time = time.time()
 start_time = time.time()
+
 r = catch_data()
 
 while True:
-    #每1/30秒处理捕获一次数据, 并更新图像
-    if (mode != 0) and time.time() - start_time >= 1/30:
-        start_time = time.time()
-        r = catch_data()
-        plt.imshow(r.cpu().numpy(), cmap='gray')
-        plt.pause(0.001)  # 等待一小段时间以便更新图像
-        # 清除当前图像以便更新
-        plt.clf()
-                
-    #每两秒取一次数据
-    if (mode == 1) and time.time() - catch_time >= 0.3:
-        catch_time = time.time()
-        stor_data(data,r)       
-    
-    #学习模式
+
     if (mode == 0):
         #提取数据
         sub_arrays = [sample[0][0:1800].to(device) for sample in data]
@@ -164,32 +152,47 @@ while True:
                 print(ho.weight)
                 print(ih.weight)
                 print(hihii.weight)
-    #应用模式
-    if mode == 2:
+   
+    #每1/30秒处理捕获一次数据, 并更新图像
+    if (mode == 2) and time.time() - start_time >= 1/30:
+        start_time = time.time()
+        r = catch_data()
+        plt.imshow(r.cpu().numpy(), cmap='gray')
+        plt.pause(0.001)  # 等待一小段时间以便更新图像
+        # 清除当前图像以便更新
+        plt.clf()
+
         hidden_layer = ih.get_output(input_data=r.flatten())
         h2 = hihii.get_output(input_data=ih.output_data)
         res = ho.get_output(input_data=hihii.output_data)
-        res = torch.round(res)
         print(res)
-        if res[0,0] == 1:
+        if res[0,0] >= 0.5:
             pyautogui.keyDown('up')
         else:
             pyautogui.keyUp('up')
 
-        if res[0,1]== 1:
+        if res[0,1] >= 0.5:
             pyautogui.keyDown('left')
         else:
             pyautogui.keyUp('left')
 
-        if res[0,2]== 1:
+        if res[0,2] >= 0.5:
             pyautogui.keyDown('down')
         else:
             pyautogui.keyUp('down')
 
-        if res[0,3]== 1:
+        if res[0,3] >= 0.5:
             pyautogui.keyDown('right')
         else:
             pyautogui.keyUp('right')
+             
+    #每两秒取一次数据
+    if (mode == 1) and time.time() - catch_time >= 0.3:
+        r = catch_data()
+        catch_time = time.time()
+        stor_data(data,r)       
+    
+       
     #切换模式
     if keyboard.is_pressed('0'):
         mode = 0
