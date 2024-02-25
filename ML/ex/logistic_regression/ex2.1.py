@@ -53,7 +53,7 @@ class logisticRegression:
         #plt.legend()
         plt.show()
 
-lR = logisticRegression(".\ML\ex2\data\ex2data1.txt")
+lR = logisticRegression(".\ML\ex\logistic_regression\data\ex2data1.txt")
 #print(lR.h())
 
 lR.Itergrate(10000000, 0.0003)

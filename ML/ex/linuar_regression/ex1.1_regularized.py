@@ -56,7 +56,7 @@ class linearRegression:
         plt.show()
     
 
-lr = linearRegression(".\ML\ex1\data\ex1data1.txt")
+lr = linearRegression(".\ML\ex\linuar_regression\data\ex1data1.txt")
 
 rate = 0.003
 punish = 5000

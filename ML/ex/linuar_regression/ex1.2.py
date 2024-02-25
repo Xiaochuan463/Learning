@@ -68,7 +68,7 @@ class multiRegression:
         # 显示图形
         plt.show()
 
-mR = multiRegression(".\ML\ex1\data\ex1data2.txt")
+mR = multiRegression(".\ML\ex\linuar_regression\data\ex1data2.txt")
 
 mR.mseIterateCpu(10000,0.000003)
 print(mR.theta)
