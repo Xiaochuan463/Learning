@@ -71,6 +71,33 @@ int8 tree_insert(node*root, node* n){
         return 0;
 }
 
+int8 tree_insert_recursion(node** root, node* n){
+        if(!*root){
+                *root = n;
+        }
+        if(!n){
+                return -1;
+        }
+        if(n->data < (*root)->data){
+                if((*root)->left){
+                        return tree_insert_recursion(&((*root)->left), n);
+                }
+                else{
+                        (*root)->left = n;
+                        return 0;
+                }
+        }
+        else{
+                if((*root)->right){
+                        return tree_insert_recursion(&((*root)->right), n);
+                }
+                else{
+                        (*root)->right = n;
+                        return 0;
+                }
+        }
+}
+
 int8 tree_delete(node* root, node* n){
         node* tmp;
         if(!n->left){

@@ -78,6 +78,18 @@ node *tree_predecessor(node *r);
 ********************************************/
 int8 tree_insert(node* root, node* n);
 
+/********************************************
+ * recursion version of tree_insert
+ * 
+ * Parameters:
+ *      root: root of a tree root pointer's address
+ *      n: the node want to insert
+ * Returns:
+ *      -1 to sign empty node pointer n
+ *      0 to sign succeed.
+********************************************/
+int8 tree_insert_recursion(node** root, node* n);
+
 /*******************************************
  * Delete a node in binary search tree
  * 

@@ -1,48 +1,17 @@
 '''
-identify handwriten numbers
+nerve net work build with chain.
+each layer is a node
 
-datasets: MNIST
+
 '''
-import gzip
 import numpy as np
 from convolution import Convolution
 from convolution import Pooling
 from convolution import Fullconnect
 
-TRAIN_IMAGE = "ML\\CNN\\datas\\train-images-idx3-ubyte.gz"
-TRAIN_LABEL = "ML\\CNN\\datas\\train-labels-idx1-ubyte.gz"
-TEST_IMAGE = "ML\\CNN\\datas\\t10k-images-idx3-ubyte.gz"
-TEST_LABEL = "ML\\CNN\\datas\\t10k-labels-idx1-ubyte.gz"
+
 NULL = None
 
-def load_idx3_ubyte(file_path):
-    '''
-    load images
-    '''
-    with gzip.open(file_path, 'rb') as f:
-        # 读取文件头部信息
-        magic_number = int.from_bytes(f.read(4), byteorder='big')
-        num_images = int.from_bytes(f.read(4), byteorder='big')
-        num_rows = int.from_bytes(f.read(4), byteorder='big')
-        num_cols = int.from_bytes(f.read(4), byteorder='big')
-        # 读取图像数据
-        buf = f.read(num_images * num_rows * num_cols)
-        data = np.frombuffer(buf, dtype=np.uint8)
-        data = data.reshape(num_images, num_rows, num_cols)
-        return data
-
-def load_idx1_ubyte(file_path):
-    '''
-    load labels
-    '''
-    with gzip.open(file_path, 'rb') as f:
-        # 读取文件头部信息
-        magic_number = int.from_bytes(f.read(4), byteorder='big')
-        num_items = int.from_bytes(f.read(4), byteorder='big')
-        # 读取标签数据
-        buf = f.read(num_items)
-        labels = np.frombuffer(buf, dtype=np.uint8)
-        return labels
 
 class Node:
     '''

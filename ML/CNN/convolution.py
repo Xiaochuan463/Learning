@@ -116,11 +116,11 @@ class Convolution(Layer):
             output_data(np.ndarray)
         '''
         self.input_data = input_data
-        pad_height = max(self.kernel.shape[0] - 1, 0)
-        pad_width = max(self.kernel.shape[1] - 1, 0)
-        padded_image = np.pad(input_data, ((pad_height, pad_height),
-            (pad_width, pad_width)), mode='constant', constant_values=0)
-        self.output_data = correlate2d(padded_image, self.kernel,mode="valid")
+        pad_height = max(((self.kernel.shape[0] - 1) // 2), 0)
+        pad_width = max(((self.kernel.shape[1] - 1) // 2), 0)
+        padded_image = np.pad(self.input_data, ((0,0),(pad_height, pad_height), (pad_width, pad_width)),
+                               mode='constant', constant_values=0)
+        self.output_data = np.array([correlate2d(matrix, self.kernel,mode="valid") for matrix in padded_image])
         self.output_data = np.maximum(0, self.output_data)
         return self.output_data
 
@@ -189,18 +189,19 @@ class Pooling(Layer):
             ouput_data
         '''
         self.input_data = input_data
-        height, width = input_data.shape
+        num_samples, height, width = input_data.shape
         pool_height, pool_width = self.pool_size
         pooled_height = height // pool_height
         pooled_width = width // pool_width
-        pooled_feature_map = np.zeros((pooled_height, pooled_width))
-        for i in range(pooled_height):
-            for j in range(pooled_width):
-                start_h = i * pool_height
-                end_h = start_h + pool_height
-                start_w = j * pool_width
-                end_w = start_w + pool_width
-                pooled_feature_map[i, j] = np.max(self.input_data[start_h:end_h, start_w:end_w])
+        pooled_feature_map = np.zeros((num_samples, pooled_height, pooled_width))
+        for k in range(num_samples):  # 遍历每个样本
+            for i in range(pooled_height):
+                for j in range(pooled_width):
+                    start_h = i * pool_height
+                    end_h = start_h + pool_height
+                    start_w = j * pool_width
+                    end_w = start_w + pool_width
+                    pooled_feature_map[k, i, j] = np.max(self.input_data[k, start_h:end_h, start_w:end_w])
         self.output_data = pooled_feature_map
         return pooled_feature_map
 
@@ -267,7 +268,7 @@ class Fullconnect(Layer):
         self.grad = None
 
     def forward(self, input_data) -> np.ndarray:
-        self.input_data = input_data
+        self.input_data = input_data.flatten()
         self.output_data = np.matmul(self.input_data, self.weight) + self.bias
         self.output_data = 1 / (1 + np.exp(-1 * self.output_data))
         return self.output_data
