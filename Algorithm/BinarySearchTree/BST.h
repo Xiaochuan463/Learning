@@ -1,4 +1,5 @@
-#include <stdio.h>
+#include<stdio.h>
+#include<stdlib.h>
 
 /****************
  * trans subtree u as v, and u's parents become v's; v becomes child of
@@ -10,7 +11,12 @@
  *      u: the node want to be replaced
  *      v: the node to replace u;
 ****************/
-#define TRANSPLANT(root, u, v) do{\
+#ifndef BST
+        #ifndef NULL
+        #define NULL 0
+        #endif
+#define TRANSPLANT(root, u, v) \
+        do{\
         if(!u->pare){\
                 root = v;\
         }\
@@ -24,14 +30,13 @@
                 v->pare = u->pare;\
         }\
         }while(0);
-#define uint8 unsigned char;
-#define int8 signed char;
 
-typedef struct
+struct node;
+typedef struct node
 {
-        node *left;
-        node *right;
-        node *pare;
+        struct node *left;
+        struct node *right;
+        struct node *pare;
         int data;
 } node;
 
@@ -76,7 +81,7 @@ node *tree_predecessor(node *r);
  *      -1 to sign empty tree
  *      0 to sign succeed.
 ********************************************/
-int8 tree_insert(node* root, node* n);
+signed char tree_insert(node* root, node* n);
 
 /********************************************
  * recursion version of tree_insert
@@ -88,7 +93,7 @@ int8 tree_insert(node* root, node* n);
  *      -1 to sign empty node pointer n
  *      0 to sign succeed.
 ********************************************/
-int8 tree_insert_recursion(node** root, node* n);
+signed char tree_insert_recursion(node** root, node* n);
 
 /*******************************************
  * Delete a node in binary search tree
@@ -97,4 +102,45 @@ int8 tree_insert_recursion(node** root, node* n);
  *      root: root of bst
  *      n: node want to delete
 *******************************************/
-int8 tree_delete(node* root, node* n);
+signed char tree_delete(node* root, node* n);
+
+/*******************************************
+ * Delete a node in binary search tree, but use predecesser
+ * 
+ * Parameters:
+ *      root: root of bst
+ *      n: node want to delete
+*******************************************/
+signed char tree_delete_use_predecesser(node* root, node* n);
+
+/*******************************************
+ * Inorder tranversal
+ * 
+ * Parameters: 
+ *      root: root of tree or subtree
+ * Return:
+ *      void
+*******************************************/
+void inorder_tranversal(node* root);
+
+/******************************************
+ * free a tree after used
+ * 
+ * Parameters:
+ *      root : root of tree or subtree
+ * Return: 
+ *      void
+******************************************/
+void tree_free(node** root);
+
+/*******************************************
+ * BST_sort: sort using bst
+ * 
+ * Parameters: 
+ *      arr: array want to sort
+ *      length: length of the array
+ * Return:
+ *      situation of sorting
+*******************************************/
+signed char BST_sort(int* arr, int length);
+#endif

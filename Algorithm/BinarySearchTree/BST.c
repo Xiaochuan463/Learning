@@ -46,7 +46,7 @@ node *tree_predecessor(node *r){
         }
 }
 
-int8 tree_insert(node*root, node* n){
+signed char tree_insert(node*root, node* n){
         node* tmp = NULL;
         node* x = root;
         while(x){
@@ -71,7 +71,7 @@ int8 tree_insert(node*root, node* n){
         return 0;
 }
 
-int8 tree_insert_recursion(node** root, node* n){
+signed char tree_insert_recursion(node** root, node* n){
         if(!*root){
                 *root = n;
         }
@@ -98,7 +98,7 @@ int8 tree_insert_recursion(node** root, node* n){
         }
 }
 
-int8 tree_delete(node* root, node* n){
+signed char tree_delete(node* root, node* n){
         node* tmp;
         if(!n->left){
                 TRANSPLANT(root, n, n->right);
@@ -118,5 +118,81 @@ int8 tree_delete(node* root, node* n){
                 tmp->left->pare = tmp;
         }
         free(n);
+        return 0;
+}
+
+signed char tree_delete_use_predecesser(node* root, node* n){
+        node* tmp;
+        if(!n->left){
+                TRANSPLANT(root, n, n->right);
+        }
+        else if(!n->right){
+                TRANSPLANT(root, n, n->left);
+        }
+        else{
+                tmp = tree_predecessor(n);
+                if(tmp == n->left){
+                        TRANSPLANT(root, n, tmp);
+                        tmp->right = n->right;
+                }
+                else{
+                TRANSPLANT(root, n, tmp);
+                tmp->left = n->left;
+                tmp->right = n->right;
+                }
+        }
+        free(n);
+        return 0;
+}
+
+void inorder_tranversal(node* root){
+        if(!root){
+                return;
+        }
+        inorder_tranversal(root->left);
+        printf("%d ", root->data);
+        inorder_tranversal(root->right);
+}
+
+void tree_free(node** root){
+        if(!(*root)){
+                return;
+        }
+        if((*root)->left){
+                tree_free(&((*root)->left));
+        }
+        if((*root)->right){
+                tree_free(&((*root)->right));
+        }
+        free(*root);
+        *root = 0;
+        return;
+}
+
+signed char BST_sort(int* arr, int length){
+        int i = 0;
+        node Root;
+        node *root = &Root; 
+        node *tmp = 0;
+        root->left = 0;
+        root->right = 0;
+        root->data = arr[i];
+        for(i = 1; i < length; i++){
+                printf("ready to insert!\n");
+                tmp = (node*)malloc(sizeof(node));
+                if(!tmp){
+                        return -1;
+                }
+                tmp->data = arr[i];
+                tmp->left = 0;
+                tmp->right = 0;
+                tmp->pare = 0;
+                tree_insert(root, tmp);
+                printf("insert!\n");
+        }
+        inorder_tranversal(root);
+        printf("\nready to free memory!\n");
+        tree_free(&root);
+        printf("freed!\n");
         return 0;
 }
