@@ -1,4 +1,4 @@
-#include "BST.h"
+#include "../inc/BST.h"
 
 node *tree_minimum_recursion(node *r)
 {

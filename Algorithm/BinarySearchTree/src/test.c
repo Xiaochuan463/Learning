@@ -1,4 +1,4 @@
-#include "BST.h"
+#include "../inc/BST.h"
 
 int main(){
         int arr[] = {5, 8, 9, 6, 4, 7, 3};

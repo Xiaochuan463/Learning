@@ -1,0 +1,52 @@
+{
+    "configurations": [
+        {
+            "name": "Debug",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${fileDirname}/../bin/myprogram",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${fileDirname}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "为 gdb 启用整齐打印",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                },
+                {
+                    "description": "将反汇编风格设置为 Intel",
+                    "text": "-gdb-set disassembly-flavor intel",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "make", // 调试启动前执行的任务名称，与 tasks.json 中的任务名称对应
+            "miDebuggerPath": "/usr/bin/gdb" // GDB 调试器路径
+        },
+        {
+            "name": "run",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${fileDirname}/../bin/myprogram",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${fileDirname}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "make", // 调试启动前执行的任务名称，与 tasks.json 中的任务名称对应
+            "miDebuggerPath": "/usr/bin/gdb" // GDB 调试器路径
+        }
+    ],
+    "version": "2.0.0"
+}
