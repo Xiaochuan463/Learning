@@ -15,7 +15,7 @@ void rbt_insert_fixup(rbt* obj,node* insert_node);
 void rbt_insert(rbt* obj, node* insert_node);
 void rbt_delete(rbt* obj, node* node);
 rbt* rbt_new();
-rbt* rbt_free();
+void rbt_free(rbt* obj);
 
 typedef struct node
 {

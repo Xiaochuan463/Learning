@@ -14,6 +14,21 @@ void rbt_transplant(rbt* obj, node* u, node* v){
         v->parent = u->parent;
 }
 
+void tree_free(node* x){
+        if(x){
+                if(x->left){
+                        tree_free(x->left);
+                        free(x->left);
+                        x->left = 0;
+                }
+                if(x->right){
+                        tree_free(x->right);
+                        free(x->right);
+                        x->right = 0;
+                }
+        }
+}
+
 node *tree_minimum_recursion(rbt* obj,node *r)
 {
         if(!r){
@@ -242,3 +257,21 @@ void rbt_delete(rbt* obj, node* z){
                 }
         }
 }
+
+void rbt_free(rbt* obj){
+        if(obj->root){
+                if(obj->root->left){
+                        tree_free(obj->root->left);
+                        free(obj->root->left);
+                        obj->root->left = 0;
+                }
+                if(obj->root->right){
+                        tree_free(obj->root->right);
+                        free(obj->root->right);
+                        obj->root->right = 0;
+                }
+                free(obj->root);
+                free(obj->NIL);
+        }
+}
+
